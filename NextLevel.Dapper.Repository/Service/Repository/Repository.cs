@@ -16,7 +16,6 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             await WithConnection(async conn =>
                 await conn.ExecuteAsync(command, entity));
-
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(string command)
@@ -29,7 +28,6 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             return await WithConnection(async conn =>
                 await conn.QueryFirstOrDefaultAsync<TEntity>(command, new { Id = id }));
-
         }
 
         public async Task<bool> IsInDbAsync(string command, TKey id)
