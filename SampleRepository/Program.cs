@@ -25,9 +25,9 @@ namespace SampleRepository
         public static IServiceProvider RegisterServices()
         {
             var services = new ServiceCollection();
+            services.AddSingleton<IConfiguration>();
             services.AddApplication();
             services.AddScoped<ProductRepository>();
-            services.AddSingleton<IConfiguration>();
             return services.BuildServiceProvider();
         }
     }
