@@ -12,7 +12,7 @@ namespace WebApi.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private IRepository<Product, int> _productRepository;
+        private readonly IRepository<Product, int> _productRepository;
 
         public WeatherForecastController(IRepository<Product,int> repository)
         {
@@ -22,7 +22,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<Product>> GetAll()
         {
-           var t= await _productRepository.GetAllAsync("select * from product");
+           var t= await _productRepository.GetAllAsync("select id from product");
            return t;
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -8,10 +7,6 @@ namespace NextLevel.Dapper.Repository.Service.Repository
 {
     public class Repository<TEntity, TKey> : BaseRepository, IRepository<TEntity, TKey>
     {
-        public Repository(IConfiguration configuration) : base(configuration)
-        {
-        }
-
         public async Task AddAsync(string command, TEntity entity)
         {
             await WithConnection(async conn =>

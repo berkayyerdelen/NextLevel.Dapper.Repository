@@ -3,19 +3,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Data;
+using NextLevel.Dapper.Repository.AppConfig;
 
 namespace NextLevel.Dapper.Repository.Service.Repository
 {
     public abstract class BaseRepository
     {
-        private readonly IConfiguration _configuration;
-        private readonly string _connectionString;
-        protected BaseRepository(IConfiguration configuration)
-        {
-            _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("DefaultConnection");
-        }
-
         /// <summary>
         /// use for buffered queries that return a type
         /// </summary>
@@ -26,7 +19,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             try
             { 
-                using var connection = new SqlConnection(_connectionString);
+                using var connection = new SqlConnection(AppConfiguration.ConnectionString);
                 await connection.OpenAsync();
                 return await getData(connection);
             }
@@ -49,7 +42,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             try
             {
-                using var connection = new SqlConnection(_connectionString);
+                using var connection = new SqlConnection(AppConfiguration.ConnectionString);
                 await connection.OpenAsync();
                 await getData(connection);
             }
@@ -76,7 +69,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             try
             {
-                using var connection = new SqlConnection(_connectionString);
+                using var connection = new SqlConnection(AppConfiguration.ConnectionString);
                 await connection.OpenAsync();
                 var data = await getData(connection);
                 return await process(data);

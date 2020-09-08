@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 
 namespace NextLevel.Dapper.Repository.Service.Repository
