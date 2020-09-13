@@ -1,6 +1,5 @@
 ﻿using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Data;
 using NextLevel.Dapper.Repository.AppConfig;
@@ -19,7 +18,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             try
             { 
-                using var connection = new SqlConnection(AppConfiguration.ConnectionString);
+                using var connection = new SqlConnection(Connection.Value);
                 await connection.OpenAsync();
                 return await getData(connection);
             }
@@ -42,7 +41,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             try
             {
-                using var connection = new SqlConnection(AppConfiguration.ConnectionString);
+                using var connection = new SqlConnection(Connection.Value);
                 await connection.OpenAsync();
                 await getData(connection);
             }
@@ -69,7 +68,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             try
             {
-                using var connection = new SqlConnection(AppConfiguration.ConnectionString);
+                using var connection = new SqlConnection(Connection.Value);
                 await connection.OpenAsync();
                 var data = await getData(connection);
                 return await process(data);

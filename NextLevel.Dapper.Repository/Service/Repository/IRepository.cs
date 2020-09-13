@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dapper;
 
 namespace NextLevel.Dapper.Repository.Service.Repository
 {
@@ -7,9 +8,11 @@ namespace NextLevel.Dapper.Repository.Service.Repository
     {
         Task<IEnumerable<TEntity>> GetAllAsync(string command);
         ValueTask<TEntity> GetByIdAsync(string command, TKey id);
-        Task AddAsync(string command,TEntity entity);
-        Task UpdateAsync(string command,TEntity entity, TKey id);
-        Task RemoveAsync(string command,TKey id);
-        Task<bool> IsInDbAsync(string command,TKey id);
+        Task AddAsync(string command, TEntity entity);
+        Task UpdateAsync(string command, TEntity entity, TKey id);
+        Task RemoveAsync(string command, TKey id);
+        Task<bool> IsInDbAsync(string command, TKey id);
+        Task ExecuteQuery(string command, TEntity entity);
+        Task<SqlMapper.GridReader> QueryMultipleAsync(string command);
     }
 }
