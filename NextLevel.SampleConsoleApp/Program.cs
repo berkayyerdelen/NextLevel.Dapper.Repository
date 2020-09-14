@@ -11,11 +11,12 @@ namespace NextLevel.SampleConsoleApp
         static async Task Main(string[] args)
         {
             var service = RegisterService();
-           //var k= service.GetService(typeof(IRepository<,>), typeof(Repository<,>));
-           var p = service.GetRequiredService<IRepository<Product, int>>();
-            var t = service.GetService<Repository<Product, int>>();
-            await t.AddAsync("insert into products", new Product() { Id = 3, Name = "TestMAte" });
+
+            var k = service.GetService<IRepository<Product, int>>();
+            
+            await k.AddAsync("insert into products", new Product() { id = 3, name = "TestMAte" });
             Console.WriteLine("Hello World!");
+
         }
 
         static IServiceProvider RegisterService()
@@ -23,13 +24,13 @@ namespace NextLevel.SampleConsoleApp
             var collection = new ServiceCollection();
             collection.AddDapperRepository(
                 "Data Source=DESKTOP-HS9IPOH;Initial Catalog=Product;Integrated Security=SSPI;");
-            return collection.BuildServiceProvider(true);
+            return collection.BuildServiceProvider();
         }
     }
 
     class Product
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }
