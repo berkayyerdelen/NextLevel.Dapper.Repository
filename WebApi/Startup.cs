@@ -22,7 +22,7 @@ namespace WebApi
 
             var connectionString = Configuration.GetValue<string>("ConnectionString");
             services.AddDapperRepository(connectionString);
-            //services.AddDbContext<>()
+            // services.AddDbContext<>()
             services.AddControllers();
             
         }
