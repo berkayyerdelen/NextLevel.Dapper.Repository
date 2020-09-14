@@ -1,4 +1,4 @@
-﻿namespace NextLevel.Dapper.Repository.AppConfig
+﻿namespace NextLevel.Dapper.Repository.Service
 {
     public sealed class Connection
     {

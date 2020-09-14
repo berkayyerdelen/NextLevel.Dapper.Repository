@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using System;
 using System.Data;
-using NextLevel.Dapper.Repository.AppConfig;
+using NextLevel.Dapper.Repository;
+
 
 namespace NextLevel.Dapper.Repository.Service.Repository
 {
