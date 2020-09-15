@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NextLevel.Dapper.Repository
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{CD9FD891-056E-4203-BCC5-9D8EA013CCCF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{A8D40DFD-2A17-41E5-92E6-1506AC4B573F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NextLevel.SampleConsoleApp", "NextLevel.SampleConsoleApp\NextLevel.SampleConsoleApp.csproj", "{BE08CB5A-46E8-4383-BAF5-CA5C56FA8127}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NextLevel.SampleConsoleApp", "NextLevel.SampleConsoleApp\NextLevel.SampleConsoleApp.csproj", "{BE08CB5A-46E8-4383-BAF5-CA5C56FA8127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{F82337F5-FA79-4ADD-B0C3-F59BD747DA40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F82337F5-FA79-4ADD-B0C3-F59BD747DA40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F82337F5-FA79-4ADD-B0C3-F59BD747DA40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8D40DFD-2A17-41E5-92E6-1506AC4B573F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8D40DFD-2A17-41E5-92E6-1506AC4B573F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8D40DFD-2A17-41E5-92E6-1506AC4B573F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8D40DFD-2A17-41E5-92E6-1506AC4B573F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE08CB5A-46E8-4383-BAF5-CA5C56FA8127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE08CB5A-46E8-4383-BAF5-CA5C56FA8127}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE08CB5A-46E8-4383-BAF5-CA5C56FA8127}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -34,7 +28,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A8D40DFD-2A17-41E5-92E6-1506AC4B573F} = {CD9FD891-056E-4203-BCC5-9D8EA013CCCF}
 		{BE08CB5A-46E8-4383-BAF5-CA5C56FA8127} = {CD9FD891-056E-4203-BCC5-9D8EA013CCCF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
