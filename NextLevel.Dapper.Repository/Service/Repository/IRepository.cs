@@ -14,7 +14,8 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         Task AddAsync(string command, TEntity entity);
         Task UpdateAsync(string command, TEntity entity, TKey id);
         Task RemoveAsync(string command, TKey id);
-        Task<bool> IsInDbAsync(string command, TKey id);
+        Task<bool> IsInDbAsync(string tableName, TKey id);
+        Task<bool> IsInDbAsync(string tableName, string param, string key);
         Task ExecuteQuery(string command, TEntity entity);
         Task<SqlMapper.GridReader> QueryMultipleAsync(string command);
     }

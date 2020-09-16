@@ -13,9 +13,8 @@ namespace NextLevel.SampleConsoleApp
             var service = RegisterService();
 
             var k = service.GetService<IRepository<Product, int>>();
-            var t = await k.GetByIdAsync("product","id",1);
-            Console.WriteLine(t.id);
-           
+            var t = await k.IsInDbAsync("product", "name", "asdas");
+            Console.WriteLine(t);
             Console.WriteLine("Hello World!");
 
         }
