@@ -137,21 +137,24 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             await WithConnection(async conn => await conn.ExecuteAsync(command));
         }
-
+        //TODO:Need to get property names and then bind them to related entity and insert as dynamic param
         public async Task ExecuteWriteQuery(string command, TEntity entity)
         {
             await WithConnection(async conn => await conn.ExecuteAsync(command));
         }
+        //TODO: G2 Create extensions for imp
         public async Task AddAsync(string command, TEntity entity)
         {
             await WithConnection(async conn =>
                 await conn.ExecuteAsync(command, entity));
         }
+        //TODO: G2 Create extensions for imp
         public async Task UpdateAsync(string command, TEntity entity, TKey id)
         {
             await WithConnection(async conn =>
                 await conn.ExecuteAsync(command, entity));
         }
+        //TODO: G2 Create extensions for imp 
         public async Task<SqlMapper.GridReader> QueryMultipleAsync(string command)
         {
             var result = await WithConnection(async conn => await conn.QueryMultipleAsync(command));
