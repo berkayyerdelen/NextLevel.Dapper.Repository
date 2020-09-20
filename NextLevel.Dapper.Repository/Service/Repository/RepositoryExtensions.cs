@@ -7,6 +7,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
 {
     public static class RepositoryExtensions<TEntity>
     {
+        //TODO: G2 make proper imp
         public static Dictionary<string,object> GetProperties(TEntity entity)
         {
 
@@ -15,9 +16,9 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             foreach (PropertyInfo prop in props)
             {
                 object propValue = prop.GetValue(entity, null);
-
+                
             }
-           
+            return null;
         }
     }
 }
