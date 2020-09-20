@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using Dapper.QueryBuilder;
 using Microsoft.Extensions.Configuration;
 
 namespace NextLevel.Dapper.Repository.Service.Repository
@@ -65,11 +68,6 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             return await WithConnection(async conn =>
                 await conn.QueryFirstOrDefaultAsync<TEntity>($"Select {fields} from {tableName}", new { Id = id }));
         }
-        public async Task<bool> IsInDbAsync(string tableName, TKey id)
-        {
-            return await WithConnection(async con =>
-                await con.QuerySingleAsync<TEntity>($"Select * from {tableName} where id = @Id", new { Id = id })) != null;
-        }
         /// <summary>
         /// Delete entity by via @tableName, @id
         /// </summary>
@@ -90,27 +88,50 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// <returns></returns>
         public async Task RemoveAsync(string tableName, string param, string command)
         {
-            //TODO: Make sure that where condition should be same as param in annoymous class
-            await WithConnection(async conn =>
-                await conn.ExecuteAsync($"Delete from {tableName} where {command}", new { param = param }));
-        }
+            var query = $"Delete from  {tableName}  where {param} =@{param}";
+            var parameters = new DynamicParameters();
+            parameters.Add(param, command);
 
+            await WithConnection(async conn =>
+                await conn.ExecuteAsync(query, parameters));
+        }
+        /// <summary>
+        /// Check the record is exist in the table with @id
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> IsInDbAsync(string tableName, TKey id)
+        {
+            return await WithConnection(async con =>
+                await con.QueryFirstOrDefaultAsync<TEntity>($"Select * from {tableName} where id = @Id", new { Id = id })) != null;
+        }
+        /// <summary>
+        /// Check the record is exit in the table with @params
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="param"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public async Task<bool> IsInDbAsync(string tableName, string param, string key)
         {
+            var query = $"Select * from  {tableName}  where {param} =@{param}";
+            var parameters = new DynamicParameters();
+            parameters.Add(param, key);
 
             return await WithConnection(async con =>
-                       await con.QuerySingleAsync<TEntity>($"Select * from {tableName} where name= @name", new
-                       {
-                           name = "asdas"
-                       }
-                           )) != null;
-
+                       await con.QueryFirstOrDefaultAsync<TEntity>(query, parameters)) != null;
         }
 
-
-        public async Task ExecuteQuery(string command, TEntity entity)
+        public async Task ExecuteUpsertQuery(string command, TEntity entity)
         {
             await WithConnection(async conn => await conn.ExecuteAsync(command));
+        }
+
+        public async Task<IEnumerable<TEntity>> ExecuteReadQuery(string command)
+        {
+            return await WithConnection(async conn =>
+                await conn.QueryAsync<TEntity>(command));
         }
 
         public async Task AddAsync(string command, TEntity entity)

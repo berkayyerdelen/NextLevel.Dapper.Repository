@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using NextLevel.Dapper.Repository.Service;
@@ -12,11 +13,10 @@ namespace NextLevel.SampleConsoleApp
         {
             var service = RegisterService();
 
-            var k = service.GetService<IRepository<Product, int>>();
-            var t = await k.IsInDbAsync("product", "name", "asdas");
-            Console.WriteLine(t);
+            var productService= service.GetService<IRepository<Product, int>>();
+            var source = await productService.ExecuteReadQuery("select * from product");
+          
             Console.WriteLine("Hello World!");
-
         }
 
         static IServiceProvider RegisterService()
@@ -30,7 +30,7 @@ namespace NextLevel.SampleConsoleApp
 
     class Product
     {
-        public int id { get; set; }
-        public string name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

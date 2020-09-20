@@ -13,10 +13,12 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         ValueTask<TEntity> GetByIdAsync(string tableName, string fields, TKey id);
         Task AddAsync(string command, TEntity entity);
         Task UpdateAsync(string command, TEntity entity, TKey id);
-        Task RemoveAsync(string command, TKey id);
+        Task RemoveAsync(string tableName, TKey id);
+        Task RemoveAsync(string tableName, string param, string command);
         Task<bool> IsInDbAsync(string tableName, TKey id);
         Task<bool> IsInDbAsync(string tableName, string param, string key);
-        Task ExecuteQuery(string command, TEntity entity);
+        Task ExecuteUpsertQuery(string command, TEntity entity);
+        Task<IEnumerable<TEntity>> ExecuteReadQuery(string command);
         Task<SqlMapper.GridReader> QueryMultipleAsync(string command);
     }
 }
