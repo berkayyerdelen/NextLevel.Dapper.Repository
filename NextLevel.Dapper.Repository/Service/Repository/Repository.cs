@@ -123,18 +123,31 @@ namespace NextLevel.Dapper.Repository.Service.Repository
                        await con.QueryFirstOrDefaultAsync<TEntity>(query, parameters)) != null;
         }
 
-        public async Task ExecuteUpsertQuery(string command, TEntity entity)
-        {
-            await WithConnection(async conn => await conn.ExecuteAsync(command));
-        }
-
         public async Task<IEnumerable<TEntity>> ExecuteReadQuery(string command)
         {
             return await WithConnection(async conn =>
                 await conn.QueryAsync<TEntity>(command));
         }
+        /// <summary>
+        /// Execute query for non-object transactions
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public async Task ExecuteWriteQuery(string command)
+        {
+            await WithConnection(async conn => await conn.ExecuteAsync(command));
+        }
 
+        public async Task ExecuteWriteQuery(string command, TEntity entity)
+        {
+            await WithConnection(async conn => await conn.ExecuteAsync(command));
+        }
         public async Task AddAsync(string command, TEntity entity)
+        {
+            await WithConnection(async conn =>
+                await conn.ExecuteAsync(command, entity));
+        }
+        public async Task UpdateAsync(string command, TEntity entity, TKey id)
         {
             await WithConnection(async conn =>
                 await conn.ExecuteAsync(command, entity));
@@ -144,10 +157,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             var result = await WithConnection(async conn => await conn.QueryMultipleAsync(command));
             return result;
         }
-        public async Task UpdateAsync(string command, TEntity entity, TKey id)
-        {
-            await WithConnection(async conn =>
-                await conn.ExecuteAsync(command, entity));
-        }
+        
     }
+    
 }
