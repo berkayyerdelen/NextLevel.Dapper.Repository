@@ -13,9 +13,9 @@ namespace NextLevel.SampleConsoleApp
         {
             var service = RegisterService();
 
-            var productService= service.GetService<IRepository<Product, int>>();
-            var source = await productService.ExecuteReadQuery("select * from product");
-          
+            var productService = service.GetService<IRepository<Product, int>>();
+            await productService.AddAsync("product", new Product() { Id = 1, Name = "DAMN" });
+
             Console.WriteLine("Hello World!");
         }
 
