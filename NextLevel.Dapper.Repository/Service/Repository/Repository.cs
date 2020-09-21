@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// </summary>
         /// <param name="tableName"></param>
         /// <param name="fields"></param>
-        /// <param name="command"></param>
+        /// <param name="command">Command query</param>
         /// <returns></returns>
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(string tableName, string fields, string command)
         {
@@ -51,7 +52,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// <param name="tableName"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async ValueTask<TEntity> GetByIdAsync(string tableName, TKey id)
+        public virtual async ValueTask<TEntity> GetByIdAsync(string tableName, TKey id)
         {
             return await WithConnection(async conn =>
                 await conn.QueryFirstOrDefaultAsync<TEntity>($"Select * from {tableName}", new { Id = id }));
@@ -63,7 +64,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// <param name="id"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async ValueTask<TEntity> GetByIdAsync(string tableName, string fields, TKey id)
+        public virtual async ValueTask<TEntity> GetByIdAsync(string tableName, string fields, TKey id)
         {
             return await WithConnection(async conn =>
                 await conn.QueryFirstOrDefaultAsync<TEntity>($"Select {fields} from {tableName}", new { Id = id }));
@@ -74,7 +75,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// <param name="tableName"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task RemoveAsync(string tableName, TKey id)
+        public virtual async Task RemoveAsync(string tableName, TKey id)
         {
             await WithConnection(async conn =>
                 await conn.ExecuteAsync($"Delete from {tableName} where id = @Id", new { Id = id }));
@@ -86,7 +87,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// <param name="param"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public async Task RemoveAsync(string tableName, string param, string command)
+        public virtual async Task RemoveAsync(string tableName, string param, string command)
         {
             var query = $"Delete from  {tableName}  where {param} =@{param}";
             var parameters = new DynamicParameters();
@@ -101,7 +102,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// <param name="tableName"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<bool> IsInDbAsync(string tableName, TKey id)
+        public virtual async Task<bool> IsInDbAsync(string tableName, TKey id)
         {
             return await WithConnection(async con =>
                 await con.QueryFirstOrDefaultAsync<TEntity>($"Select * from {tableName} where id = @Id", new { Id = id })) != null;
@@ -113,7 +114,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// <param name="param"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public async Task<bool> IsInDbAsync(string tableName, string param, string key)
+        public virtual async Task<bool> IsInDbAsync(string tableName, string param, string key)
         {
             var query = $"Select * from  {tableName}  where {param} =@{param}";
             var parameters = new DynamicParameters();
@@ -123,7 +124,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
                        await con.QueryFirstOrDefaultAsync<TEntity>(query, parameters)) != null;
         }
 
-        public async Task<IEnumerable<TEntity>> ExecuteReadQuery(string command)
+        public virtual async Task<IEnumerable<TEntity>> ExecuteReadQuery(string command)
         {
             return await WithConnection(async conn =>
                 await conn.QueryAsync<TEntity>(command));
@@ -133,17 +134,12 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public async Task ExecuteWriteQuery(string command)
+        public virtual async Task ExecuteWriteQuery(string command)
         {
             await WithConnection(async conn => await conn.ExecuteAsync(command));
         }
-        //TODO:Need to get property names and then bind them to related entity and insert as dynamic param
-        public async Task ExecuteWriteQuery(string command, TEntity entity)
-        {
-            await WithConnection(async conn => await conn.ExecuteAsync(command));
-        }
-      
-        public async Task AddAsync(string table, TEntity entity)
+
+        public virtual async Task AddAsync(string table, TEntity entity)
         {
             var parameters = new DynamicParameters();
             var query = $"Insert into {table} values (";
@@ -158,11 +154,20 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             await WithConnection(async conn =>
                 await conn.ExecuteAsync(query, parameters));
         }
-        //TODO: G2 Create extensions for imp
-        public async Task UpdateAsync(string command, TEntity entity, TKey id)
+
+        public virtual async Task UpdateAsync(string table, TEntity entity, TKey id)
         {
+            var parameters = new DynamicParameters();
+            var query = $"Update {table} set ";
+            foreach (var val in RepositoryExtensions<TEntity>.GetProperties(entity))
+            {
+                parameters.Add(val.Key, val.Value);
+                query += $"{val.Key} = @{val.Key},";
+            }
+            query = query.Substring(0, query.Length - 1);
+            query += ";";
             await WithConnection(async conn =>
-                await conn.ExecuteAsync(command, entity));
+                await conn.ExecuteAsync(query, parameters));
         }
         //TODO: G2 Create extensions for imp 
         public async Task<SqlMapper.GridReader> QueryMultipleAsync(string command)
@@ -170,7 +175,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             var result = await WithConnection(async conn => await conn.QueryMultipleAsync(command));
             return result;
         }
-        
+
     }
-    
+
 }

@@ -11,9 +11,6 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             var listOfProperties = new Dictionary<string, string>();
             IList<PropertyInfo> props = new List<PropertyInfo>(entity.GetType().GetProperties());
-            var t = entity.GetType().GetProperties();
-
-           
             foreach (var prop in props)
             {
                 var propValue = prop.GetValue(entity,null)?.ToString();
