@@ -142,20 +142,19 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         {
             await WithConnection(async conn => await conn.ExecuteAsync(command));
         }
-        //TODO: G2 Create extensions for imp
+      
         public async Task AddAsync(string table, TEntity entity)
         {
-            var t =RepositoryExtensions<TEntity>.GetProperties(entity);
             var parameters = new DynamicParameters();
             var query = $"Insert into {table} values (";
-            foreach (var VARIABLE in t)
+            foreach (var val in RepositoryExtensions<TEntity>.GetProperties(entity))
             {
-                parameters.Add(VARIABLE.Key, VARIABLE.Value);
-                query += $"@{VARIABLE.Key},";
+                parameters.Add(val.Key, val.Value);
+                query += $"@{val.Key},";
             }
 
             query = query.Substring(0, query.Length - 1);
-            query += ")";
+            query += ");";
             await WithConnection(async conn =>
                 await conn.ExecuteAsync(query, parameters));
         }

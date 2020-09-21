@@ -16,7 +16,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
            
             foreach (var prop in props)
             {
-                var propValue = prop.GetValue(entity).ToString();
+                var propValue = prop.GetValue(entity,null)?.ToString();
                 listOfProperties.Add(prop.Name,propValue);
             }
             return listOfProperties;
