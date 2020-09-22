@@ -85,11 +85,11 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// <param name="tableName">Table Name</param>
         /// <param name="param">Parameter</param>
         /// <param name="command">Command</param>
-        public virtual async Task RemoveAsync(string tableName, string param, string command)
+        public virtual async Task RemoveAsync(string tableName, string param, string key)
         {
             var query = $"Delete from  {tableName}  where {param} =@{param}";
             var parameters = new DynamicParameters();
-            parameters.Add(param, command);
+            parameters.Add(param, key);
 
             await WithConnection(async conn =>
                 await conn.ExecuteAsync(query, parameters));
@@ -166,6 +166,27 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         /// <param name="entity">Entity</param>
         /// <param name="id">Generic Id</param>
         public virtual async Task UpdateAsync(string table, TEntity entity, TKey id)
+        {
+            var parameters = new DynamicParameters();
+            var query = $"Update {table} set ";
+            foreach (var val in RepositoryExtensions<TEntity>.GetProperties(entity))
+            {
+                parameters.Add(val.Key, val.Value);
+                query += $"{val.Key} = @{val.Key},";
+            }
+
+            parameters.Add("Id", id);
+            query = query.Substring(0, query.Length - 1);
+            query += " where Id=@Id;";
+            await WithConnection(async conn =>
+                await conn.ExecuteAsync(query, parameters));
+        }
+        /// <summary>
+        ///     Executes the UpdateAsync method for updating related record
+        /// </summary>
+        /// <param name="table">Table Name</param>
+        /// <param name="entity">Entity</param>
+        public virtual async Task UpdateAsync(string table, TEntity entity)
         {
             var parameters = new DynamicParameters();
             var query = $"Update {table} set ";

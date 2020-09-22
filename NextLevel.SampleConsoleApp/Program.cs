@@ -13,7 +13,8 @@ namespace NextLevel.SampleConsoleApp
             var service = RegisterService();
 
             var productService = service.GetService<IRepository<Product, int>>();
-            var source = await productService.GetAllAsync("product", "*","name","WOW");
+            await productService.RemoveAsync("Product", 1);
+            await productService.AddAsync("Product", new Product() {Name = "Dota"});
             Console.ReadKey();
         }
 
@@ -30,8 +31,6 @@ namespace NextLevel.SampleConsoleApp
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
 
     }
 
