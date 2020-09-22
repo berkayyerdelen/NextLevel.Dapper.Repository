@@ -1,43 +1,44 @@
 # NextLevel.Dapper.Repository
 ```csharp
-var source= await productService.GetAllAsync("product", "*","name","WOW"); //Table Name  Fields , Where Clause, Parameter
+var source= await productService.GetAllAsync("TableName");
 ```
 ```csharp
-var source= await productService.GetAllAsync("product");
+var source= await productService.GetAllAsync("TableName", "Fields);
 ```
 ```csharp
-var source= await productService.GetAllAsync("Table", "Id, Name");
+var source= await productService.GetAllAsync("TableName", "Fields","WhereClause","Param"); 
 ```
 ```csharp
-var source= await productService.GetByIdAsync("Product", "*", 1);
+var source= await productService.GetByIdAsync("TableName", "Fields", Id);
 ```
 ```csharp
-var source= await productService.GetByIdAsync("product", 1);
-```
-
-```csharp
-var source = await productService.IsInDbAsync("Product", 1);
-var source = await productService.IsInDbAsync("Product","Name","Wow");
+var source= await productService.GetByIdAsync("TableName", 1);
 ```
 
 ```csharp
- await productService.RemoveAsync("Product", "Name", "Wow");
- await productService.RemoveAsync("Product", 1);
+var source = await productService.IsInDbAsync("TableName", 1);
+var source = await productService.IsInDbAsync("TableName","ColumnName","Param");
+```
+
+```csharp
+ await productService.RemoveAsync("TableName", Id);
+ await productService.RemoveAsync("TableName", "WhereClause", "Param");
+
  ```
 ```csharp
- await productService.UpdateAsync("Product", new Product() {Name = "AOM"});
- await productService.UpdateAsync("Product", new Product() {Name = "AOM"}, 1);
- ```
-
- ```csharp
- var source= await productService.ExecuteReadQuery("Select * from Product");
+ await productService.UpdateAsync("TableName", new Product() {Name = "AOM"});
+ await productService.UpdateAsync("TableName", new Product() {Name = "AOM"}, Id);
  ```
 
  ```csharp
- await productService.ExecuteWriteQuery("Delete from Products");
+ var source= await productService.ExecuteReadQuery("Select * from TableName");
+ ```
+
+ ```csharp
+ await productService.ExecuteWriteQuery("Delete from TableName");
  ```
  ```csharp
- await productService.AddAsync("Product", new Product() {Name = "Dota"});
+ await productService.AddAsync("TableName", new Product() {Name = "Dota"});
  ```
 
 
