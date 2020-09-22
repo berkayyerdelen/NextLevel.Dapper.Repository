@@ -10,7 +10,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
     public abstract class BaseRepository
     {
         /// <summary>
-        /// use for buffered queries that return a type
+        /// Use for buffered queries that return a type
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="getData"></param>
@@ -34,7 +34,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         }
 
         /// <summary>
-        /// use for buffered queries that do not return a type
+        /// Use for buffered queries that do not return a type
         /// </summary>
         /// <param name="getData"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace NextLevel.Dapper.Repository.Service.Repository
 
 
         /// <summary>
-        /// use for non-buffered queries that return a type
+        /// Use for non-buffered queries that return a type
         /// </summary>
         /// <typeparam name="TRead"></typeparam>
         /// <typeparam name="TResult"></typeparam>
