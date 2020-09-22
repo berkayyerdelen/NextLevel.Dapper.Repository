@@ -3,7 +3,7 @@
 var source= await productService.GetAllAsync("TableName");
 ```
 ```csharp
-var source= await productService.GetAllAsync("TableName", "Fields);
+var source= await productService.GetAllAsync("TableName", "Fields");
 ```
 ```csharp
 var source= await productService.GetAllAsync("TableName", "Fields","WhereClause","Param"); 
