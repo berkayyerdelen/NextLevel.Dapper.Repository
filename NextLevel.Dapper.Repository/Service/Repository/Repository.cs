@@ -13,33 +13,33 @@ namespace NextLevel.Dapper.Repository.Service.Repository
     public class Repository<TEntity, TKey> : BaseRepository, IRepository<TEntity, TKey>
     {
         /// <summary>
-        /// Return the Enumrable List by via @tableName, @fields, @command
+        ///      Executes the GetAllAsync method for retrieve list of entity
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="fields"></param>
-        /// <param name="command">Command query</param>
-        /// <returns></returns>
+        /// <param name="tableName">Table Name</param>
+        /// <param name="fields">Fields</param>
+        /// <param name="command">Command query such as Where condition</param>
+        /// <returns>List of entity fields according to the conditions</returns>
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(string tableName, string fields, string command)
         {
             return await WithConnection(async conn =>
                 await conn.QueryAsync<TEntity>($"Select {fields} from {tableName} {command}"));
         }
         /// <summary>
-        /// Return the Enumrable List by via @tableName, @fields, @command
+        ///     Executes the GetAllAsync method for retrieve list of entity
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="fields"></param>
-        /// <returns></returns>
+        /// <param name="tableName">Table Name</param>
+        /// <param name="fields">Fields</param>
+        /// <returns>List of entity fields</returns>
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(string tableName, string fields)
         {
             return await WithConnection(async conn =>
                 await conn.QueryAsync<TEntity>($"Select {fields} from {tableName}"));
         }
         /// <summary>
-        /// Return the Enumrable List by via @tableName
+        ///     Executes the GetAllAsync method for retrieve list of entity
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
+        /// <param name="tableName">Table Name</param>
+        /// <returns>List of entity</returns>
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(string tableName)
         {
             return await WithConnection(async conn =>
@@ -47,46 +47,44 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         }
 
         /// <summary>
-        /// Get entity by via @tableName, @id
+        ///     Executes the GetByIdAsync method for retrieving the related record in data
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="tableName">Table Name</param>
+        /// <param name="id">Generic Id</param>
+        /// <returns>Entity according to the where clause</returns>
         public virtual async ValueTask<TEntity> GetByIdAsync(string tableName, TKey id)
         {
             return await WithConnection(async conn =>
                 await conn.QueryFirstOrDefaultAsync<TEntity>($"Select * from {tableName}", new { Id = id }));
         }
         /// <summary>
-        /// Get entity by via @tableName, @id, @fields
+        ///     Executes the GetByIdAsync method for retrieving the related record in data
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="id"></param>
-        /// <param name="fields"></param>
-        /// <returns></returns>
+        /// <param name="tableName">Table Name</param>
+        /// <param name="id">Generic Id</param>
+        /// <param name="fields">Fields</param>
+        /// <returns>Entity fields according to the where clause</returns>
         public virtual async ValueTask<TEntity> GetByIdAsync(string tableName, string fields, TKey id)
         {
             return await WithConnection(async conn =>
                 await conn.QueryFirstOrDefaultAsync<TEntity>($"Select {fields} from {tableName}", new { Id = id }));
         }
         /// <summary>
-        /// Delete entity by via @tableName, @id
+        ///     Executes the RemoveAsync method for removing related record in data
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="tableName">Table Name</param>
+        /// <param name="id">Generic Id</param>
         public virtual async Task RemoveAsync(string tableName, TKey id)
         {
             await WithConnection(async conn =>
                 await conn.ExecuteAsync($"Delete from {tableName} where id = @Id", new { Id = id }));
         }
         /// <summary>
-        /// Delete entity by via @tableName, @id, @command
+        ///     Executes the RemoveAsync method for removing related record in data 
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="param"></param>
-        /// <param name="command"></param>
-        /// <returns></returns>
+        /// <param name="tableName">Table Name</param>
+        /// <param name="param">Parameter</param>
+        /// <param name="command">Command</param>
         public virtual async Task RemoveAsync(string tableName, string param, string command)
         {
             var query = $"Delete from  {tableName}  where {param} =@{param}";
@@ -97,23 +95,23 @@ namespace NextLevel.Dapper.Repository.Service.Repository
                 await conn.ExecuteAsync(query, parameters));
         }
         /// <summary>
-        /// Check the record is exist in the table with @id
+        ///      Executes the IsInDbAsync method for the check data is exist or not
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="tableName">Table Name</param>
+        /// <param name="id">Generic Id</param>
+        /// <returns>True or False in case of data exist or not</returns>
         public virtual async Task<bool> IsInDbAsync(string tableName, TKey id)
         {
             return await WithConnection(async con =>
                 await con.QueryFirstOrDefaultAsync<TEntity>($"Select * from {tableName} where id = @Id", new { Id = id })) != null;
         }
         /// <summary>
-        /// Check the record is exit in the table with @params
+        ///     Executes the IsInDbAsync method for the check data is exist or not
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="param"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="tableName">Table Name</param>
+        /// <param name="param">Parameter</param>
+        /// <param name="key">Generic Key</param>
+        /// <returns>True or False in case of data exist or not</returns>
         public virtual async Task<bool> IsInDbAsync(string tableName, string param, string key)
         {
             var query = $"Select * from  {tableName}  where {param} =@{param}";
@@ -123,22 +121,29 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             return await WithConnection(async con =>
                        await con.QueryFirstOrDefaultAsync<TEntity>(query, parameters)) != null;
         }
-
+        /// <summary>
+        ///     Executes the ExecuteReadQuery method for generic select queries
+        /// </summary>
+        /// <param name="command">Full Command query</param>
+        /// <returns>List of Entity</returns>
         public virtual async Task<IEnumerable<TEntity>> ExecuteReadQuery(string command)
         {
             return await WithConnection(async conn =>
                 await conn.QueryAsync<TEntity>(command));
         }
         /// <summary>
-        /// Execute query for non-object transactions
+        ///     Executes the ExecuteWriteQuery method for non-returning queries
         /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
+        /// <param name="command">Full Command Query</param>
         public virtual async Task ExecuteWriteQuery(string command)
         {
             await WithConnection(async conn => await conn.ExecuteAsync(command));
         }
-
+        /// <summary>
+        ///     Executes the AddAsync method for inserting record into related table
+        /// </summary>
+        /// <param name="table">Table Name</param>
+        /// <param name="entity">Entity</param>
         public virtual async Task AddAsync(string table, TEntity entity)
         {
             var parameters = new DynamicParameters();
@@ -154,7 +159,12 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             await WithConnection(async conn =>
                 await conn.ExecuteAsync(query, parameters));
         }
-
+        /// <summary>
+        ///     Executes the UpdateAsync method for updating related record
+        /// </summary>
+        /// <param name="table">Table Name</param>
+        /// <param name="entity">Entity</param>
+        /// <param name="id">Generic Id</param>
         public virtual async Task UpdateAsync(string table, TEntity entity, TKey id)
         {
             var parameters = new DynamicParameters();
