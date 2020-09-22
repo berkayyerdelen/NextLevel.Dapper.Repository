@@ -1,5 +1,8 @@
 # NextLevel.Dapper.Repository
 ```csharp
+var productService = service.GetService<IRepository<Product, int>>();
+```
+```csharp
 var source= await productService.GetAllAsync("TableName");
 ```
 ```csharp
