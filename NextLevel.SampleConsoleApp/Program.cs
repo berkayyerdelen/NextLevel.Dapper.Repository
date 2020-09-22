@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using NextLevel.Dapper.Repository.Service;
@@ -14,9 +13,8 @@ namespace NextLevel.SampleConsoleApp
             var service = RegisterService();
 
             var productService = service.GetService<IRepository<Product, int>>();
-            await productService.UpdateAsync("product", new Product(){Id = 5, Name = "deneme"}, 5);
-
-            Console.WriteLine("Hello World!");
+            var source = await productService.GetAllAsync("product", "*","name","WOW");
+            Console.ReadKey();
         }
 
         static IServiceProvider RegisterService()
@@ -29,6 +27,15 @@ namespace NextLevel.SampleConsoleApp
     }
 
     class Product
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+
+    }
+
+    class Category
     {
         public int Id { get; set; }
         public string Name { get; set; }

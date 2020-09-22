@@ -1,28 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
-using Dapper.QueryBuilder;
-using Microsoft.Extensions.Configuration;
 
 namespace NextLevel.Dapper.Repository.Service.Repository
 {
     public class Repository<TEntity, TKey> : BaseRepository, IRepository<TEntity, TKey>
     {
+      
+        /// <returns></returns>
         /// <summary>
         ///      Executes the GetAllAsync method for retrieve list of entity
         /// </summary>
         /// <param name="tableName">Table Name</param>
         /// <param name="fields">Fields</param>
         /// <param name="command">Command query such as Where condition</param>
+        /// <param name="param">Parameter</param>
         /// <returns>List of entity fields according to the conditions</returns>
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(string tableName, string fields, string command)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(string tableName, string fields, string command, string param)
         {
+            var query = $"Select {fields} from {tableName} where {command}= @{command}";
+            var parameters = new DynamicParameters();
+            parameters.Add(command, param);
             return await WithConnection(async conn =>
-                await conn.QueryAsync<TEntity>($"Select {fields} from {tableName} {command}"));
+                await conn.QueryAsync<TEntity>(query, parameters));
         }
         /// <summary>
         ///     Executes the GetAllAsync method for retrieve list of entity
@@ -179,13 +179,5 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             await WithConnection(async conn =>
                 await conn.ExecuteAsync(query, parameters));
         }
-        //TODO: G2 Create extensions for imp 
-        public async Task<SqlMapper.GridReader> QueryMultipleAsync(string command)
-        {
-            var result = await WithConnection(async conn => await conn.QueryMultipleAsync(command));
-            return result;
-        }
-
     }
-
 }

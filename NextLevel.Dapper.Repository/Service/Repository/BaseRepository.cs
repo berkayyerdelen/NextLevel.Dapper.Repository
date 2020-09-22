@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System;
 using System.Data;
-using NextLevel.Dapper.Repository;
 
 
 namespace NextLevel.Dapper.Repository.Service.Repository
@@ -25,11 +24,12 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             }
             catch (TimeoutException ex)
             {
-                throw new Exception(String.Format("{0}.WithConnection() experienced a SQL timeout", GetType().FullName), ex);
+                throw new Exception($"{GetType().FullName}.WithConnection() experienced a SQL timeout", ex);
             }
             catch (SqlException ex)
             {
-                throw new Exception(String.Format("{0}.WithConnection() experienced a SQL exception (not a timeout)", GetType().FullName), ex);
+                throw new Exception(
+                    $"{GetType().FullName}.WithConnection() experienced a SQL exception (not a timeout)", ex);
             }
         }
 
@@ -48,11 +48,12 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             }
             catch (TimeoutException ex)
             {
-                throw new Exception(String.Format("{0}.WithConnection() experienced a SQL timeout", GetType().FullName), ex);
+                throw new Exception($"{GetType().FullName}.WithConnection() experienced a SQL timeout", ex);
             }
             catch (SqlException ex)
             {
-                throw new Exception(String.Format("{0}.WithConnection() experienced a SQL exception (not a timeout)", GetType().FullName), ex);
+                throw new Exception(
+                    $"{GetType().FullName}.WithConnection() experienced a SQL exception (not a timeout)", ex);
             }
         }
 
@@ -76,11 +77,12 @@ namespace NextLevel.Dapper.Repository.Service.Repository
             }
             catch (TimeoutException ex)
             {
-                throw new Exception(String.Format("{0}.WithConnection() experienced a SQL timeout", GetType().FullName), ex);
+                throw new Exception($"{GetType().FullName}.WithConnection() experienced a SQL timeout", ex);
             }
             catch (SqlException ex)
             {
-                throw new Exception(String.Format("{0}.WithConnection() experienced a SQL exception (not a timeout)", GetType().FullName), ex);
+                throw new Exception(
+                    $"{GetType().FullName}.WithConnection() experienced a SQL exception", ex);
             }
         }
     }

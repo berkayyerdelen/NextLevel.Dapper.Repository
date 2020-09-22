@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dapper;
 
 namespace NextLevel.Dapper.Repository.Service.Repository
 {
     public interface IRepository<TEntity, in TKey>
     {
-        Task<IEnumerable<TEntity>> GetAllAsync(string tableName, string fields, string command);
+        Task<IEnumerable<TEntity>> GetAllAsync(string tableName, string fields,string command, string param);
         Task<IEnumerable<TEntity>> GetAllAsync(string tableName, string fields);
         Task<IEnumerable<TEntity>> GetAllAsync(string tableName);
         ValueTask<TEntity> GetByIdAsync(string tableName, TKey id);
@@ -19,6 +18,5 @@ namespace NextLevel.Dapper.Repository.Service.Repository
         Task ExecuteWriteQuery(string command);
         Task UpdateAsync(string table, TEntity entity, TKey id);
         Task AddAsync(string command, TEntity entity);
-        Task<SqlMapper.GridReader> QueryMultipleAsync(string command);
     }
 }

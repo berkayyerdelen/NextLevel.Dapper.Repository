@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 
 namespace NextLevel.Dapper.Repository.Service.Repository
 {
     public static class RepositoryExtensions<TEntity>
     {
-        //TODO: G2 make proper imp
         public static Dictionary<string, string> GetProperties(TEntity entity)
         {
             var listOfProperties = new Dictionary<string, string>();
