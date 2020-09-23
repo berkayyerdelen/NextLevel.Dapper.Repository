@@ -24,13 +24,13 @@ var source = await productService.IsInDbAsync("TableName","ColumnName","Param");
 ```
 
 ```csharp
- await productService.RemoveAsync("TableName", Id);
- await productService.RemoveAsync("TableName", "WhereClause", "Param");
+await productService.RemoveAsync("TableName", Id);
+await productService.RemoveAsync("TableName", "WhereClause", "Param");
 
  ```
 ```csharp
- await productService.UpdateAsync("TableName", new Product() {Name = "AOM"});
- await productService.UpdateAsync("TableName", new Product() {Name = "AOM"}, Id);
+await productService.UpdateAsync("TableName", new Product() {Name = "AOM"});
+await productService.UpdateAsync("TableName", new Product() {Name = "AOM"}, Id);
  ```
 
  ```csharp
@@ -38,10 +38,10 @@ var source = await productService.IsInDbAsync("TableName","ColumnName","Param");
  ```
 
  ```csharp
- await productService.ExecuteWriteQuery("Delete from TableName");
+await productService.ExecuteWriteQuery("Delete from TableName");
  ```
  ```csharp
- await productService.AddAsync("TableName", new Product() {Name = "Dota"});
+await productService.AddAsync("TableName", new Product() {Name = "Dota"});
  ```
 
 
