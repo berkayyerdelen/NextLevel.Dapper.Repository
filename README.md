@@ -7,6 +7,8 @@ You can use it in every .Net application or library targeting one of the followi
 
 You can also use it on previous version of these profiles but not fully tested.
 
+https://www.nuget.org/packages/NextLevel.Dapper.Repository/1.0.0
+
 ### List of Repository Methods?
 * GetAllAsync
 * GetByIdAsync
