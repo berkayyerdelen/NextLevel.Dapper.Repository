@@ -17,7 +17,16 @@ You can also use it on previous version of these profiles but not fully tested.
 * ExecuteReadQuery
 * ExecuteWriteQuery
 
-
+### How to register service?
+```csharp
+ static IServiceProvider RegisterService()
+        {
+            var collection = new ServiceCollection();
+            collection.AddDapperRepository(
+                "ConnectionString");
+            return collection.BuildServiceProvider();
+        }
+```        
 ### Usage
 ```csharp
 var productService = service.GetService<IRepository<Product, int>>();
