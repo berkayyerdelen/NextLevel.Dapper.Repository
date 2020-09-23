@@ -4,6 +4,7 @@ You can use it in every .Net application or library targeting one of the followi
 * .NET Standard 2
 * .NET Core 2.1+
 * .NET 4.5
+
 You can also use it on previous version of these profiles but not fully tested.
 
 ### List of Repository Methods?
