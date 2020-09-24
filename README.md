@@ -1,7 +1,7 @@
 # NextLevel.Dapper.Repository
 ### Where can I use it?
 You can use it in every .Net application or library targeting one of the following profiles:
-* .NET Standard 2
+* .NET Standard 2.0
 * .NET Core 2.1+
 
 You can also use it on previous version of these profiles but not fully tested.
